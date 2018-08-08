@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Trivia Game</title>
+    <title>Gif-tastic</title>
     <!-- <link rel="stylesheet" type="text/css" href="reset.css"> -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
         crossorigin="anonymous">
@@ -11,23 +11,23 @@
     <link href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 
 </head>
 
 <body>
     <div class="container">
         <!-- row for search -->
-        <div class="row">
+        <div class="row header-class">
             <div class="col-md-12 search-col">
                 <form>
-                    <input id="search" placeholder="Search your gif here" type="text">
-                    <input id="go" type="submit">
+                    <input id="search" style="color: black" placeholder="Search your gif here" type="text">
+                    <input id="go" class="submit-button-class" type="submit">
                 </form>
             </div>
         </div>
         <!-- row for buttons -->
-        <div class="row">
+        <div class="row header-class">
             <div class="col-md-12" id="buttons-go-here">
 
             </div>
@@ -44,62 +44,10 @@
 
 
     <!-- include this in a separate file later and add it's link here-->
-    <script type="text/javascript">
-        var inputArr = ["cat", "dog", "horse", "fish"];
-        $("#go").on("click", function () {
-            event.preventDefault();
-            var btn = $("<button>");
-            btn.addClass("gifButton");
-            var btnName = $("#search").val();
-            btn.text(btnName);
-            btn.attr("value", btnName);
-            $("#buttons-go-here").append(btn);
-            $("#search").val("");
-        });
-        $(document).on("click", ".gifButton", function () {
-            var searchTerm = $(this).attr("value");
-            var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=" + searchTerm + "&limit=5";
-            $.ajax({
-                url: queryURL,
-                method: "GET"
-            }).then(function (response) {
-                console.log(response);
-                var results = response.data;
-                $("#gifs-go-here").empty();
-                for (var i = 0; i < results.length; i++) {
-                    var imgDiv = $("<div>");
-                    imgDiv.addClass("floated-div");
-                    var p = $("<p>");
-                    p.text("Ratings: " +results[i].rating);
-                    var img = $("<img>");
-                    img.addClass("gif");
-                    img.attr("data-state", "still");
-                    img.attr("still-url", results[i].images.fixed_height_still.url);
-                    img.attr("animate-url", results[i].images.fixed_height.url)
-                    img.attr("src", results[i].images.fixed_height_still.url);
-                    imgDiv.append(p).append(img);
-                    $("#gifs-go-here").append(imgDiv);
+    <script type="text/javascript" src="assets/javascript/script2.js"></script>
+        
 
-                }      //close for loop
-
-            }) // close .then()
-        });     //close on-click button
-
-        $(document).on("click", ".gif", function () {
-            var state = $(this).attr("data-state");
-            if (state === "still") {
-                var animateValue = $(this).attr("animate-url");
-                $(this).attr("src", animateValue);
-                $(this).attr("data-state", "animate");
-            }
-            else if (state === "animate") {
-                var stillValue = $(this).attr("still-url");
-                $(this).attr("src", stillValue);
-                $(this).attr("data-state", "still");
-            }
-        });    //close on-click gif
-
-    </script>
+   
 </body>
 
 </html>
